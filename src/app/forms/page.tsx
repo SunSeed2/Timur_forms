@@ -1,9 +1,18 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@heroui/react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@heroui/react";
 import Link from "next/link";
 
 import { db } from "@/lib/db";
 import { statusLabel } from "@/lib/format";
 import { requireAuth } from "@/lib/guards";
+
+export const instant = false;
 
 export default async function FormsPage() {
   const session = await requireAuth();
@@ -41,7 +50,12 @@ export default async function FormsPage() {
               </CardHeader>
               <CardContent className="space-y-1 text-sm text-slate-700">
                 <p>Questions: {form.questions.length}</p>
-                <p>Status: {mySubmission ? statusLabel(mySubmission.status) : "Not started"}</p>
+                <p>
+                  Status:{" "}
+                  {mySubmission
+                    ? statusLabel(mySubmission.status)
+                    : "Not started"}
+                </p>
               </CardContent>
               <CardFooter>
                 <Link

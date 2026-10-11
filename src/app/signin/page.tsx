@@ -1,6 +1,13 @@
 "use client";
 
-import { Button, Card, CardContent, CardHeader, CardTitle, Input } from "@heroui/react";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  Input,
+} from "@heroui/react";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { FormEvent, useState } from "react";
@@ -17,7 +24,9 @@ export default function SignInPage() {
     setLoading(true);
 
     const formData = new FormData(event.currentTarget);
-    const email = String(formData.get("email") ?? "").trim().toLowerCase();
+    const email = String(formData.get("email") ?? "")
+      .trim()
+      .toLowerCase();
     const password = String(formData.get("password") ?? "");
 
     const result = await signIn("credentials", {
@@ -46,14 +55,29 @@ export default function SignInPage() {
           <form onSubmit={onSubmit} className="space-y-4">
             <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
               Email
-              <Input name="email" type="email" placeholder="admin@timurforms.local" required />
+              <Input
+                name="email"
+                type="email"
+                placeholder="admin@timurforms.local"
+                required
+              />
             </label>
             <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
               Password
-              <Input name="password" type="password" placeholder="Your password" required />
+              <Input
+                name="password"
+                type="password"
+                placeholder="Your password"
+                required
+              />
             </label>
             {error && <p className="text-sm text-red-700">{error}</p>}
-            <Button type="submit" variant="primary" className="w-full" isDisabled={loading}>
+            <Button
+              type="submit"
+              variant="primary"
+              className="w-full"
+              isDisabled={loading}
+            >
               {loading ? "Signing in..." : "Enter workspace"}
             </Button>
           </form>

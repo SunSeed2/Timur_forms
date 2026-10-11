@@ -1,10 +1,20 @@
 import { SubmissionStatus } from "@prisma/client";
-import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Input } from "@heroui/react";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  Input,
+} from "@heroui/react";
 import { revalidatePath } from "next/cache";
 
 import { db } from "@/lib/db";
 import { statusLabel } from "@/lib/format";
 import { requireAdmin } from "@/lib/guards";
+
+export const instant = false;
 
 export default async function AdminSubmissionsPage() {
   await requireAdmin();
@@ -33,7 +43,9 @@ export default async function AdminSubmissionsPage() {
       return;
     }
 
-    const existing = await db.formSubmission.findUnique({ where: { id: submissionId } });
+    const existing = await db.formSubmission.findUnique({
+      where: { id: submissionId },
+    });
 
     if (!existing || existing.status !== SubmissionStatus.SUBMITTED) {
       return;
@@ -67,7 +79,10 @@ export default async function AdminSubmissionsPage() {
     <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-4 px-6 py-8">
       <h1 className="text-3xl font-bold">Admin submissions</h1>
       {submissions.map((submission) => (
-        <Card key={submission.id} className="border border-black/10 bg-white/85">
+        <Card
+          key={submission.id}
+          className="border border-black/10 bg-white/85"
+        >
           <CardHeader>
             <CardTitle>{submission.form.title}</CardTitle>
             <CardDescription>
@@ -85,13 +100,24 @@ export default async function AdminSubmissionsPage() {
             </div>
 
             {submission.status === SubmissionStatus.SUBMITTED && (
-              <form action={reopenAction} className="grid gap-2 md:grid-cols-[1fr_auto]">
+              <form
+                action={reopenAction}
+                className="grid gap-2 md:grid-cols-[1fr_auto]"
+              >
                 <label className="flex flex-col gap-1 text-sm text-slate-700">
                   Reopen reason (optional)
                   <Input name="reason" placeholder="Need revised details" />
                 </label>
-                <input type="hidden" name="submissionId" value={submission.id} />
-                <Button type="submit" variant="secondary" className="md:self-end">
+                <input
+                  type="hidden"
+                  name="submissionId"
+                  value={submission.id}
+                />
+                <Button
+                  type="submit"
+                  variant="secondary"
+                  className="md:self-end"
+                >
                   Reopen for user edits
                 </Button>
               </form>

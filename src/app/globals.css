@@ -30,7 +30,11 @@ body {
 }
 
 .sheet {
-  background: linear-gradient(160deg, color-mix(in oklch, white 92%, var(--brand) 8%), var(--card));
+  background: linear-gradient(
+    160deg,
+    color-mix(in oklch, white 92%, var(--brand) 8%),
+    var(--card)
+  );
   border: 1px solid color-mix(in oklch, var(--foreground) 10%, white 90%);
   border-radius: 1.25rem;
   box-shadow:

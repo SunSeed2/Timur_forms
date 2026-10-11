@@ -1,16 +1,31 @@
 import { QuestionType } from "@prisma/client";
-import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Input, TextArea } from "@heroui/react";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  Input,
+  TextArea,
+} from "@heroui/react";
 import { notFound } from "next/navigation";
 import { revalidatePath } from "next/cache";
 
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/guards";
 
+export const instant = false;
+
 interface Props {
   params: Promise<{ formId: string }>;
 }
 
-const QUESTION_TYPE_OPTIONS: QuestionType[] = ["TEXT", "SINGLE_CHOICE", "MULTI_CHOICE"];
+const QUESTION_TYPE_OPTIONS: QuestionType[] = [
+  "TEXT",
+  "SINGLE_CHOICE",
+  "MULTI_CHOICE",
+];
 
 export default async function EditFormPage({ params }: Props) {
   await requireAdmin();
@@ -107,9 +122,14 @@ export default async function EditFormPage({ params }: Props) {
           <CardDescription>{form.description}</CardDescription>
         </CardHeader>
         <CardContent className="flex items-center gap-3">
-          <p className="text-sm text-slate-700">Current status: {form.isActive ? "Active" : "Draft"}</p>
+          <p className="text-sm text-slate-700">
+            Current status: {form.isActive ? "Active" : "Draft"}
+          </p>
           <form action={toggleActiveAction}>
-            <Button type="submit" variant={form.isActive ? "secondary" : "primary"}>
+            <Button
+              type="submit"
+              variant={form.isActive ? "secondary" : "primary"}
+            >
               {form.isActive ? "Unpublish" : "Publish"}
             </Button>
           </form>
@@ -119,17 +139,29 @@ export default async function EditFormPage({ params }: Props) {
       <Card className="border border-black/10 bg-white/80">
         <CardHeader>
           <CardTitle>Add question</CardTitle>
-          <CardDescription>Create prompt and answer options for this form.</CardDescription>
+          <CardDescription>
+            Create prompt and answer options for this form.
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <form action={addQuestionAction} className="grid gap-3 md:grid-cols-2">
+          <form
+            action={addQuestionAction}
+            className="grid gap-3 md:grid-cols-2"
+          >
             <label className="flex flex-col gap-1 text-sm text-slate-700 md:col-span-2">
               Question
-              <Input name="prompt" placeholder="What date did your trip start?" required />
+              <Input
+                name="prompt"
+                placeholder="What date did your trip start?"
+                required
+              />
             </label>
             <label className="flex flex-col gap-1 text-sm text-slate-700">
               Type
-              <select name="type" className="rounded-xl border border-black/15 bg-white px-3 py-2">
+              <select
+                name="type"
+                className="rounded-xl border border-black/15 bg-white px-3 py-2"
+              >
                 <option value="TEXT">Text</option>
                 <option value="SINGLE_CHOICE">Single choice</option>
                 <option value="MULTI_CHOICE">Multi choice</option>
@@ -137,14 +169,20 @@ export default async function EditFormPage({ params }: Props) {
             </label>
             <label className="flex flex-col gap-1 text-sm text-slate-700">
               Required
-              <select name="required" className="rounded-xl border border-black/15 bg-white px-3 py-2">
+              <select
+                name="required"
+                className="rounded-xl border border-black/15 bg-white px-3 py-2"
+              >
                 <option value="true">Yes</option>
                 <option value="false">No</option>
               </select>
             </label>
             <label className="flex flex-col gap-1 text-sm text-slate-700 md:col-span-2">
               Options (one per line for choice questions)
-              <TextArea name="options" placeholder={"Approved\nDenied\nNeeds more info"} />
+              <TextArea
+                name="options"
+                placeholder={"Approved\nDenied\nNeeds more info"}
+              />
             </label>
             <div className="md:col-span-2">
               <Button type="submit" variant="primary">
@@ -157,13 +195,17 @@ export default async function EditFormPage({ params }: Props) {
 
       <section className="space-y-3">
         {form.questions.map((question) => (
-          <Card key={question.id} className="border border-black/10 bg-white/80">
+          <Card
+            key={question.id}
+            className="border border-black/10 bg-white/80"
+          >
             <CardHeader>
               <CardTitle className="text-lg">
                 {question.sortOrder}. {question.prompt}
               </CardTitle>
               <CardDescription>
-                {question.type} {question.required ? "(required)" : "(optional)"}
+                {question.type}{" "}
+                {question.required ? "(required)" : "(optional)"}
               </CardDescription>
             </CardHeader>
             {question.options.length > 0 && (

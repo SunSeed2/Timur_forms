@@ -1,9 +1,21 @@
-import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input, TextArea } from "@heroui/react";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+  Input,
+  TextArea,
+} from "@heroui/react";
 import Link from "next/link";
 import { revalidatePath } from "next/cache";
 
 import { requireAdmin } from "@/lib/guards";
 import { db } from "@/lib/db";
+
+export const instant = false;
 
 export default async function AdminFormsPage() {
   await requireAdmin();
@@ -47,17 +59,27 @@ export default async function AdminFormsPage() {
       <Card className="sheet">
         <CardHeader>
           <CardTitle>Create form</CardTitle>
-          <CardDescription>Define a new form users can submit once published.</CardDescription>
+          <CardDescription>
+            Define a new form users can submit once published.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <form action={createFormAction} className="grid gap-3 md:grid-cols-2">
             <label className="flex flex-col gap-1 text-sm text-slate-700">
               Form title
-              <Input name="title" placeholder="Employee reimbursement" required />
+              <Input
+                name="title"
+                placeholder="Employee reimbursement"
+                required
+              />
             </label>
             <label className="flex flex-col gap-1 text-sm text-slate-700 md:col-span-2">
               Description
-              <TextArea name="description" placeholder="What this form collects and who should fill it." required />
+              <TextArea
+                name="description"
+                placeholder="What this form collects and who should fill it."
+                required
+              />
             </label>
             <div className="md:col-span-2">
               <Button type="submit" variant="primary">
